@@ -62,6 +62,8 @@ set history=1000
 " Set colorscheme on startup
 colorscheme monokai
 
+set relativenumber
+
 " MAPINGS ---------------------------------------------------------------{{{
 
 " Maps j presses twice fast to esc key
