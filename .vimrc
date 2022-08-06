@@ -1,91 +1,73 @@
-" Turn syntax highlighting on.
-syntax on
-
-" Disable compatibility with vi which can cause unexpected issues.
-set nocompatible
-
-" Enable type file detection. Vim will be able to try to detect the type of file in use.
-filetype on
-
-" Enable plugins and load plugin for the detected file type.
-filetype plugin on
-
-" Load an indent file for the detected file type.
-filetype indent on
-
-" Add numbers to each line on the left-hand side.
-set number
-
-" Set shift width to 4 spaces.
+" OPTIONS
+" Displays relative line numbers 
+set relativenumber
+set nu
+" Words are not higlighted after the end of a search
+set nohlsearch
+" Guarda o ultimo buffer utilizado na memoria
+set hidden
+" Disables vim from beeping for error massages
+set noerrorbells
+" Tab and indetention options
+set tabstop=4 softtabstop=4
 set shiftwidth=4
-
-" Set tab width to 4 columns.
-set tabstop=4
-
-" Use space characters instead of tabs.
 set expandtab
-
-" Do not save backup files.
-set nobackup
-
-" Do not let cursor scroll below or above N number of lines when scrolling.
-set scrolloff=10
-
-" Do not wrap lines. Allow long lines to extend as far as the line goes.
+set smartindent
+" No wrap when code goes over the end of the screen
 set nowrap
-
-" While searching though a file incrementally highlight matching characters as you type.
-set incsearch
-
-" Ignore capital letters during search.
+" Search options and case sensitivity
 set ignorecase
-
-" Override the ignorecase option if searching for capital letters.
-" This will allow you to search specifically for capital letters.
 set smartcase
-
-" Show partial command you type in the last line of the screen.
-set showcmd
-
-" Show the mode you are on the last line.
-set showmode
-
-" Show matching words during a search.
+" Bakcup and swapfile options
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+" Highlight as the searching ocurrs
+set incsearch
 set showmatch
-
-" Use highlighting when doing a search.
-set hlsearch
-
-" Set the commands to save in history default number is 20.
+set termguicolors
+" Scrools when n lines away from the bottom or top
+set scrolloff=8
+" Sets the command history (default is 20)
 set history=1000
 
-" Set colorscheme on startup
-colorscheme monokai
+" PLUGINS
+call plug#begin('~/.vim/plugged')
+Plug 'gruvbox-community/gruvbox'
+call plug#end()
 
-set relativenumber
+" APPEARANCE
+colorscheme gruvbox
 
-" MAPINGS ---------------------------------------------------------------{{{
+" MAPPINGS
+:imap jj <esc>
 
-" Maps j presses twice fast to esc key
-:imap jj <Esc>
-
-" }}}
-
-" STATUS LINE ------------------------------------------------------------ {{{
-
-" Clear status line when vimrc is reloaded.
-set statusline=
-
-" Status line left side.
-set statusline+=\ %F\ %M\ %Y\ %R
-
-" Use a divider to separate the left side from the right side.
-set statusline+=%=
-
-" Status line right side.
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
-
-" Show the status on the second to last line.
+" STATUS LINE: colors, functions and line
+" Color defintion for the status line
+hi User1 guifg=#1d2021 guibg=#eb7a31
+hi User2 guifg=#1d2021 guibg=#7c6f64 
+hi User3 guifg=#d5c4a1 guibg=#504945 
+" Returns the current mode - to be displayed on the status line
+func! CurrentMode() abort
+    let md = mode()
+    if md == 'n'
+        return 'NORMAL'
+    elseif md == 'v'
+        return 'VISUAL'
+    elseif md == 'i'
+        return 'INSERT'
+    elseif md == 'c'
+        return 'CMD'
+    else " check mode() help to define other modes here
+        return 'OTHER'
+    endif    
+endfunc    
+" Status line configuration
 set laststatus=2
-
-" }}}
+set statusline=
+set statusline+=%1*\ \%{CurrentMode()}\ \  "Show current mode
+set statusline+=%2*\ %<%F\ %=\        "File path. (%=) is the spacing
+set statusline+=%3*\ %y\ \\|\           "File type 
+    set statusline+=%3*\row:%l/%L\ \\|\ "Row number 
+set statusline+=%3*\col:%c\             "Colum number 
+set statusline+=%1*\ %m%r%w\            "Modified, readonly
