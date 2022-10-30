@@ -1,5 +1,7 @@
 " OPTIONS
-" Displays relative line numbers 
+" Disables weird comportament
+set nocompatible
+" Displays relative line numbers
 set relativenumber
 set nu
 " Words are not higlighted after the end of a search
@@ -28,8 +30,14 @@ set showmatch
 set termguicolors
 " Scrools when n lines away from the bottom or top
 set scrolloff=8
+" You can scroll with your mouse
+set mouse=a
 " Sets the command history (default is 20)
 set history=1000
+
+" MAPPINGS
+" Dosen't work when {set paste} is true
+:imap jj <esc>
 
 " PLUGINS
 call plug#begin('~/.vim/plugged')
@@ -38,15 +46,13 @@ call plug#end()
 
 " APPEARANCE
 colorscheme gruvbox
-
-" MAPPINGS
-:imap jj <esc>
+set bg=dark
 
 " STATUS LINE: colors, functions and line
 " Color defintion for the status line
 hi User1 guifg=#1d2021 guibg=#eb7a31
-hi User2 guifg=#1d2021 guibg=#7c6f64 
-hi User3 guifg=#d5c4a1 guibg=#504945 
+hi User2 guifg=#1d2021 guibg=#7c6f64
+hi User3 guifg=#d5c4a1 guibg=#504945
 " Returns the current mode - to be displayed on the status line
 func! CurrentMode() abort
     let md = mode()
@@ -60,14 +66,14 @@ func! CurrentMode() abort
         return 'CMD'
     else " check mode() help to define other modes here
         return 'OTHER'
-    endif    
-endfunc    
+    endif
+endfunc
 " Status line configuration
 set laststatus=2
 set statusline=
 set statusline+=%1*\ \%{CurrentMode()}\ \  "Show current mode
-set statusline+=%2*\ %<%F\ %=\        "File path. (%=) is the spacing
-set statusline+=%3*\ %y\ \\|\           "File type 
-    set statusline+=%3*\row:%l/%L\ \\|\ "Row number 
-set statusline+=%3*\col:%c\             "Colum number 
+set statusline+=%2*\ %<%F\ %=\          "File path. (%=) is the spacing
+set statusline+=%3*\ %y\ \\|\           "File type
+set statusline+=%3*\row:%l/%L\ \\|\     "Row number
+set statusline+=%3*\col:%c\             "Colum number
 set statusline+=%1*\ %m%r%w\            "Modified, readonly
